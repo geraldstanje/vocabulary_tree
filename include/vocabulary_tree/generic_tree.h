@@ -1,8 +1,9 @@
 #ifndef VOCABULARY_TREE_GENERIC_TREE_H
 #define VOCABULARY_TREE_GENERIC_TREE_H
 
+#include <opencv2/core/core.hpp>
+
 #include "vocabulary_tree/vocabulary_tree.h"
-#include <opencv/cv.h>
 
 namespace vt {
 
