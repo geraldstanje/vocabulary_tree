@@ -13,6 +13,7 @@ include_directories(include
     ${OpenCV_INCLUDE_DIRS}
 )
 
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
 add_definitions("-msse3 -mfpmath=sse")
 
 catkin_package(
