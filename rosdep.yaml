@@ -1,6 +1,0 @@
-gfortran:
-  ubuntu: libgfortran3
-lapack-blas-atlas:
-  ubuntu: libatlas3gf-base liblapack-dev libblas-dev
-suitesparse:
-  ubuntu: libsuitesparse-dev
