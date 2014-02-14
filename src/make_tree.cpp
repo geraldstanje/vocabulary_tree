@@ -7,8 +7,6 @@ static const unsigned int DIMENSION = 176;
 static const uint32_t K = 10;
 static const uint32_t LEVELS = 5;
 
-
-
 int main(int argc, char** argv)
 {
   if (argc < 3) {
@@ -45,7 +43,7 @@ int main(int argc, char** argv)
   vt::TreeBuilder<Feature> builder(Feature::Zero());
   builder.kmeans().setRestarts(5);
   builder.build(features, K, LEVELS);
-  printf("%u centers\n", builder.tree().centers().size());
+  printf("%zu centers\n", builder.tree().centers().size());
   builder.tree().save(tree_file);
   
   return 0;

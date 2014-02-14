@@ -29,14 +29,14 @@ int main(int argc, char** argv)
     if (infile.good())
       features.push_back(f);
   }
-  printf("# Training from %d descriptors\n", features.size());
+  printf("# Training from %zu descriptors\n", features.size());
 
   // Create tree
   vt::TreeBuilder<Feature> builder(Feature::Zero());
   builder.kmeans().setRestarts(5);
   builder.build(features, K, LEVELS);
   builder.tree().save(tree_file);
-  printf("# %u centers\n", builder.tree().centers().size());
+  printf("# %zu centers\n", builder.tree().centers().size());
 
   // Print out centers
   BOOST_FOREACH(const Feature& f, builder.tree().centers()) {
