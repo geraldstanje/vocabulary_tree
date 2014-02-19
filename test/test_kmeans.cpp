@@ -19,6 +19,7 @@ int main(int argc, char** argv)
     Feature& f = features[i];
     fscanf(data, "%lf %lf %lf", &f[0], &f[1], &f[2]);
   }
+  fclose(data);
 
   vt::SimpleKmeans<Feature> kmeans(Feature::Zero());
   double sse = kmeans.cluster(features, K, centers, membership);
