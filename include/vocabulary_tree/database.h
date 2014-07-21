@@ -19,7 +19,7 @@ struct Match
   DocId id;
   float score;
 
-  Match() {}
+  Match()  : id(0), score(0) {}
   Match(DocId _id, float _score) : id(_id), score(_score) {}
 
   /// Allows sorting Matches in best-to-worst order with std::sort.

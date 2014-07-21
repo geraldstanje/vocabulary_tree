@@ -9,6 +9,8 @@
 #include <vector>
 #include <limits>
 
+#include <iostream>
+
 namespace vt {
 
 // Forward declare function objects for choosing the initial centers
@@ -75,7 +77,7 @@ public:
                                         std::vector<Feature, FeatureAllocator>& centers,
                                         std::vector<unsigned int>& membership) const;
   
-private:
+protected:
   
   squared_distance_type clusterOnce(const std::vector<Feature*>& features, size_t k,
                                     std::vector<Feature, FeatureAllocator>& centers,
@@ -137,6 +139,7 @@ SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterPointers(const std::ve
   return least_sse;
 }
 
+
 template < class Feature, class Distance, class FeatureAllocator >
 typename SimpleKmeans<Feature, Distance, FeatureAllocator>::squared_distance_type
 SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterOnce(const std::vector<Feature*>& features, size_t k,
@@ -145,7 +148,7 @@ SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterOnce(const std::vector
 {
   std::vector<size_t> new_center_counts(k);
   std::vector<Feature, FeatureAllocator> new_centers(k);
-  
+
   for (size_t iter = 0; iter < max_iterations_; ++iter) {
     // Zero out new centers and counts
     std::fill(new_center_counts.begin(), new_center_counts.end(), 0);
@@ -158,6 +161,7 @@ SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterOnce(const std::vector
       unsigned int nearest = -1;
       // Find the nearest cluster center to feature i
       for (unsigned int j = 0; j < k; ++j) {
+          //if (iter == 53) std::cout << i << std::endl;//std::cout << *features[i] <<std::endl << std::endl;
         squared_distance_type distance = distance_(*features[i], centers[j]);
         if (distance < d_min) {
           d_min = distance;
@@ -172,7 +176,7 @@ SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterOnce(const std::vector
       }
 
       // Accumulate the cluster center and its membership count
-      new_centers[nearest] += *features[i];
+      new_centers[nearest] += *(features[i]);
       ++new_center_counts[nearest];
     }
     if (is_stable) break;
@@ -194,6 +198,7 @@ SimpleKmeans<Feature, Distance, FeatureAllocator>::clusterOnce(const std::vector
   /// @todo Kahan summation?
   squared_distance_type sse = squared_distance_type();
   for (size_t i = 0; i < features.size(); ++i) {
+      std::cout << centers[membership[i]] << std::endl;
     sse += distance_(*features[i], centers[membership[i]]);
   }
   return sse;

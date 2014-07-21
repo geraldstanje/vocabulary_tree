@@ -73,6 +73,8 @@ void TreeBuilder<Feature, Distance, FeatureAllocator>::build(const FeatureVector
   tree_.centers().reserve(tree_.nodes());
   tree_.validCenters().reserve(tree_.nodes());
 
+  //std::cout<< "begin : " << tree_.words() << std::endl;
+
   // We keep a queue of disjoint feature subsets to cluster.
   // Feature* is used to avoid copying features.
   std::deque< std::vector<Feature*> > subset_queue(1);
@@ -85,15 +87,17 @@ void TreeBuilder<Feature, Distance, FeatureAllocator>::build(const FeatureVector
 
   FeatureVector centers; // always size k
   for (uint32_t level = 0; level < levels; ++level) {
-    //printf("# Level %u\n", level);
+    printf("# Level %u\n", level);
     std::vector<unsigned int> membership;
+
+    //std::cout<< "loop" << level << " : " << tree_.words() << std::endl;
 
     for (size_t i = 0, ie = subset_queue.size(); i < ie; ++i) {
       std::vector<Feature*> &subset = subset_queue.front();
-      //printf("#\tClustering subset of size %u\n", subset.size());
+      printf("#\tClustering subset of size %u\n", subset.size());
 
       // If the subset already has k or fewer elements, just use those as the centers.
-      if (subset.size() <= k) {
+      if (subset.size() <= k) { printf("less than k \n");
         for (size_t j = 0; j < subset.size(); ++j) {
           tree_.centers().push_back(*subset[j]);
           tree_.validCenters().push_back(1);
@@ -106,10 +110,9 @@ void TreeBuilder<Feature, Distance, FeatureAllocator>::build(const FeatureVector
         subset_queue.pop_front();
         subset_queue.insert(subset_queue.end(), k, std::vector<Feature*>());
       }
-      else {
+      else { printf("more than k , subset size %d\n", subset.size());
         // Cluster the current subset into k centers.
         kmeans_.clusterPointers(subset, k, centers, membership);
-
         // Add the centers and mark them as valid.
         tree_.centers().insert(tree_.centers().end(), centers.begin(), centers.end());
         tree_.validCenters().insert(tree_.validCenters().end(), k, 1);
@@ -125,7 +128,7 @@ void TreeBuilder<Feature, Distance, FeatureAllocator>::build(const FeatureVector
         subset_queue.insert(subset_queue.end(), new_subsets.begin(), new_subsets.end());
       }
     }
-    //printf("# centers so far = %u\n", tree_.centers().size());
+    printf("# centers so far = %u\n", tree_.centers().size());
   }
 }
 

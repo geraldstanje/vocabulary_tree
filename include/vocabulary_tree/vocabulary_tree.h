@@ -123,7 +123,7 @@ Word VocabularyTree<Feature, Distance, FeatureAllocator>::quantize(const Feature
   }
 
   return index - word_start_;
-};
+}
 
 template<class Feature, class Distance, class FeatureAllocator>
 uint32_t VocabularyTree<Feature, Distance, FeatureAllocator>::levels() const
