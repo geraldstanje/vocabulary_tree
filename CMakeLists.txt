@@ -25,6 +25,7 @@ catkin_package(
 add_library(vocabulary_tree
     src/database.cpp
     src/generic_tree.cpp
+    src/cv_tree.cpp
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/
